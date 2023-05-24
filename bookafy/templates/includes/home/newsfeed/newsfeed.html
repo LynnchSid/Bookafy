@@ -1,0 +1,137 @@
+{% load static %}
+<div class="col-lg-6" style="z-index:1">
+    <div class="main-wraper">
+        <span class="new-title">Create New Post</span>
+        <div class="new-post">
+            <form method="post">
+                <i class="icofont-pen-alt-1"></i>
+                <input type="text" placeholder="Create New Post">
+            </form>
+            <ul class="upload-media">
+                <li>
+                    <a href="#" title="">
+                        <i><img src="{% static 'images/image.png' %}" alt=""></i>
+                        <span>Photo/Video</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" title="">
+                        <i><img src="images/activity.png" alt=""></i>
+                        <span>Status</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div><!-- create new post -->
+
+    {% for post in posts %}
+        <div class="main-wraper">
+            <div class="user-post">
+                <div class="friend-info">
+                    <figure>
+                        {% if post.user.profile.profile_image.url %}
+                            <img alt="" src="{{post.user.profile.profile_image.url}}">
+                        {% endif %}
+                    </figure>
+                    <div class="friend-name">
+                        {% if post.user == user %}
+                            <div class="more">
+                                <div class="more-post-optns">
+                                    <i class="">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round" class="feather feather-more-horizontal">
+                                            <circle cx="12" cy="12" r="1"></circle>
+                                            <circle cx="19" cy="12" r="1"></circle>
+                                            <circle cx="5" cy="12" r="1"></circle>
+                                        </svg></i>
+                                    <ul>
+                                        <li>
+                                            <i class="icofont-pen-alt-1"></i>Edit Post
+                                        </li>
+                                        <li>
+                                            <i class="icofont-ui-delete"></i>Delete Post
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        {% endif %}
+                        <ins><a title="" href="{% url 'profile:user-timeline' post.user.username %}">{{post.user.get_full_name}}</a> {% if post.is_post == True %}Create Post {% else %}Shared Post {% endif %}</ins>
+                        <span><i class="icofont-globe"></i> published: {{post.post.get_date}}</span>
+                    </div>
+                    <div class="post-meta">
+                        <p href="post-detail.html" class="post-title">{{ post.post.body }}</p>
+                        <div uk-slideshow="animation: push">
+
+                            <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1">
+        
+                                <ul class="uk-slideshow-items">
+                                    <li>
+                                        <img src="{{post.user.profile.profile_image.url}}" alt="" uk-cover>
+                                    </li>
+                                </ul>
+        
+                                <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slideshow-item="previous"></a>
+                                <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slideshow-item="next"></a>
+        
+                            </div>
+        
+                            <ul class="uk-slideshow-nav uk-dotnav uk-flex-center uk-margin"></ul>
+        
+                        </div>
+                        <div class="stat-tools">
+                            <div class="box">
+                                <div class="Like">
+                                    <a class="like-post" data-url="/like_post/" data-post-id={{post.post.slug}} id="{{post.post.slug}}">
+                                        <i class="icofont-like" {% for liked in post.get_all_like %} {% if liked.user == request.user %} style="color:blue;" {% endif %} {% endfor %}></i> <span id="{{post.post.slug}}_total-like">{{post.get_total_like_count}}</span> Likes
+                                    </a>
+                                </div>
+                            </div>
+                            <a title="" href="#" class="comment-to"><i class="icofont-comment"></i> Comment</a>
+                            <a title="" href="#" class="share-to"><i class="icofont-share-alt"></i> Share</a>
+                            
+                            <div class="new-comment" style="display: none;">
+                                <form method="post">
+                                    <input type="text" placeholder="write comment">
+                                    <button type="submit"><i class="icofont-paper-plane"></i></button>
+                                </form>
+                                <div class="comments-area">
+                                    <ul>
+                                        <li>
+                                            <figure><img alt="" src="images/resources/user1.jpg"></figure>
+                                            <div class="commenter">
+                                                <h5><a title="" href="#">Jack Carter</a></h5>
+                                                <span>2 hours ago</span>
+                                                <p>
+                                                    i think that some how, we learn who we really are and then live with
+                                                    that decision, great post!
+                                                </p>
+                                                <span>you can view the more detail via link</span>
+                                                <a title="" href="#">https://www.youtube.com/watch?v=HpZgwHU1GcI</a>
+                                            </div>
+                                            <a title="Like" href="#"><i class="icofont-heart"></i></a>
+                                            <a title="Reply" href="#" class="reply-coment"><i class="icofont-reply"></i></a>
+                                        </li>
+                                        <li>
+                                            <figure><img alt="" src="images/resources/user2.jpg"></figure>
+                                            <div class="commenter">
+                                                <h5><a title="" href="#">Ching xang</a></h5>
+                                                <span>2 hours ago</span>
+                                                <p>
+                                                    i think that some how, we learn who we really are and then live with
+                                                    that decision, great post!
+                                                </p>
+                                            </div>
+                                            <a title="Like" href="#"><i class="icofont-heart"></i></a>
+                                            <a title="Reply" href="#" class="reply-coment"><i class="icofont-reply"></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>

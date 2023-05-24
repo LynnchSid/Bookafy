@@ -1,0 +1,83 @@
+{% load static %}
+
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+	<title>{{settings.data.site_name}} | {{settings.data.slogon}}</title>
+    <link rel="icon" href="images/fav.png" type="image/png" sizes="16x16"> 
+    
+    <link rel="stylesheet" href="{% static 'css/main.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/color.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+
+</head>
+<body>
+<div class="page-loader" id="page-loader">
+
+  <div class="loader"><span class="loader-item"></span><span class="loader-item"></span><span class="loader-item"></span><span class="loader-item"></span><span class="loader-item"></span><span class="loader-item"></span><span class="loader-item"></span><span class="loader-item"></span><span class="loader-item"></span><span class="loader-item"></span></div>
+
+</div><!-- page loader -->
+<div class="theme-layout gray-bg">
+	<div class="container">
+		<div class="row justify-content-md-center">
+			<div class="col-lg-8">
+				<div class="forget-password">
+					<figure class="logo"><img src="images/logo.png" alt=""><span>{{settings.data.site_name}}</span></figure>
+					<div class="pass-form">
+						<h4>Check your device</h4>
+                        <p class="">We’ve sent a five-digit confirmation code to your mobile/email: <br> <b>{{ username_or_email }}</b>.
+                            Enter it below to confirm your mobile number.</p>
+                            {% for message in messages %}
+                            {% if message %}
+                            <div class="container pt-4">
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show mt-2" role="alert">
+                                {{ message }}
+                                <button type="button" class="close pt-1" data-dismiss="alert">
+                                    <span class="font-size-lg">&times;</span>
+                                </button>
+                            </div>
+                        </div>
+                            {% endif %}
+                        {% endfor %}
+						<form method="POST" class="mb-3">
+                            {% csrf_token %}
+                            <div>
+                                <input type="text" name="code" class="form-control " placeholder="Enter your code">
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block"> Verify </button>
+                        </form>
+						<span>Go Back To <a href="{% url 'user_login' %}" title="">Sign In</a></span>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<figure class="bottom-mockup"><img alt="" src="images/footer.png"></figure>
+	<div class="bottombar">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<span class="">&copy; Copyright All rights reserved by {{settings.data.site_name}} 2023</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</div>
+	
+	<script src="{% static 'js/main.min.js' %}"></script>
+	<script src="{% static 'js/sparkline.js' %}"></script>
+	<script src="{% static 'js/chart.js' %}"></script>
+	<script src="{% static 'js/script.js' %}"></script>
+	
+
+</body>	
+</html>
